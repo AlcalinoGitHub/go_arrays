@@ -1,6 +1,5 @@
 package array
 
-
 //Returns wether an array contains a certain element
 func Contains[T comparable](array []T, element T) bool {
 	for i := range array {
@@ -75,4 +74,31 @@ func Min[T Number](array []T) *T {
 	}
 
 	return &min
+}
+
+
+func Reverse[T any](array []T) []T {
+	final := make([]T, 0)
+	for i := len(array) -1; i >= 0; i-- {
+		final = append(final, array[i])
+	}
+	return final
+}
+
+
+func Filter[T any](array []T, function func(T) bool) []T {
+	result := make([]T, 0)
+	for _, element := range array {
+		if function(element) {result = append(result, element)}
+	}
+	return result
+}
+
+func Map[T any, K any](array []T, function func(any) K) []K {
+	result := make([]K, 0)
+
+	for _, element := range array {
+		result = append(result, function(element))
+	}
+	return result
 }
