@@ -42,7 +42,7 @@ array.SliceEquals(arr, []int{5,4,3,2,1}) //false
 
 ## Instalation
 ```bash
-//Run on the terminal
+# Run on the terminal
 go get github.com/AlcalinoGitHub/go_arrays
 ```
 
