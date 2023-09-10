@@ -36,7 +36,7 @@ func IndexOf[T cmp.Ordered](array []T, element T) *int {
 }
 
 type Number interface {
-	int | int8 | int16 | int64 | int32 | uint | uint16 | uint32 | uint64 | uint8
+	int | int8 | int16 | int64 | int32 | uint | uint16 | uint32 | uint64 | uint8 | float32 | float64
 }
 
 // Returns the sum of all elements in the array.
@@ -98,7 +98,7 @@ func Filter[T any](array []T, function func(T) bool) []T {
 	return result
 }
 
-func Map[T any, K any](array []T, function func(any) K) []K {
+func Map[T any, K any](array []T, function func(T) K) []K {
 	result := make([]K, 0)
 
 	for _, element := range array {
@@ -110,25 +110,35 @@ func Map[T any, K any](array []T, function func(any) K) []K {
 // Binary searchs trough an array and returns the index
 // of the given element. If element is not present returns null.
 // If array is NOT sorted the result will be meaningless
-func BinarySearch[T cmp.Ordered](array []T, target T) *int {
-	left := 0
-	right := len(array)
-	var mid int
+func BinarySearch[T cmp.Ordered](arr []T, target T) *int {
+    left, right := 0, len(arr)-1
+    
+    for left <= right {
+        mid := left + (right-left)/2
 
-	for right >= left {
-		mid = left + (right-left)/2
+        if arr[mid] == target {
+            return &mid
+        } else if arr[mid] < target {
+            left = mid + 1
+        } else {
+            right = mid - 1
+        }
+    }
+    
+    return nil // Element not found
+}
 
-		if array[mid] == target {
-			return &mid
-		}
+//Compares 2 arrays for deep equality
+func SliceEquals[T comparable](first []T, second []T) bool {
+	if len(first) != len(second) {
+		return false
+	}
 
-		//array[mid] > target
-		if cmp.Compare(array[mid], target) == 1 {
-			right = mid - 1
-		} else {
-			left = mid - 1
+	for i := range first {
+		if first[i] != second[i] {
+			return false
 		}
 	}
 
-	return nil
+	return true
 }
